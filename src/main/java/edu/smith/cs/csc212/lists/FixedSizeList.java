@@ -56,18 +56,21 @@ public class FixedSizeList<T> extends ListADT<T> {
 
 	@Override
 	public T getFront() {
-		throw new TODOErr();
+		this.checkNotEmpty();
+		return this.array.getIndex(0);
 	}
 
 	@Override
 	public T getBack() {
-		throw new TODOErr();
+		this.checkNotEmpty();
+		return this.array.getIndex(fill-1);
 	}
 
 	@Override
 	public void addIndex(int index, T value) {
-		// slide to the right
-		throw new TODOErr();
+	checkNotEmpty();
+	this.array.setIndex(1, value);
+	for (in)
 	}
 
 	@Override
@@ -87,7 +90,17 @@ public class FixedSizeList<T> extends ListADT<T> {
 	@Override
 	public T removeIndex(int index) {
 		// slide to the left
-		throw new TODOErr();
+	T takeOut = this.array.getIndex(index);
+	//take the index you want from the list and store it
+	this.array.setIndex(index, this.array.getIndex(index+1));
+	//store the value you took out as the next value you want
+	for (int i = index; i < this.fill; i++) {
+		this.array.setIndex(i, array.getIndex(i+1));
+	}
+	//create a for loop that slides down all the other values
+	this.array.setIndex(fill, null);
+	return takeOut;
+	//erase the duplicate and return the value you stored before.
 	}
 
 	@Override
