@@ -51,7 +51,17 @@ public class GrowableList<T> extends ListADT<T> {
 	@Override
 	public T removeIndex(int index) {
 		// slide to the left
-		throw new TODOErr();
+	T takeOut = this.array.getIndex(index);
+	//take the index you want from the list and store it
+	this.array.setIndex(index, this.array.getIndex(index+1));
+	//store the value you took out as the next value you want
+	for (int i = index; i < this.fill; i++) {
+		this.array.setIndex(i, array.getIndex(i+1));
+	}
+	//create a for loop that slides down all the other values
+	this.array.setIndex(fill, null);
+	return takeOut;
+	//erase the duplicate and return the value you stored before.
 	}
 
 	@Override
@@ -71,14 +81,24 @@ public class GrowableList<T> extends ListADT<T> {
 	 * This private method is called when we need to make room in our GrowableList.
 	 */
 	private void resizeArray() {
+		//Create a new array
+		ArrayWrapper<T> larger = new ArrayWrapper<>(this.array.size()*2);
+		//Copies things over
+		for (int i = 0; i < this.array.size(); i++) {
+			larger.setIndex(i, this.array.getIndex(i));
+		}
+		//Swap the array. Crate a variable called new array and swap out old 
+		//for new array. 
+		this.array = larger;
 		// TODO: use this where necessary (already called in addBack!)
-		throw new TODOErr();
 	}
 
 	@Override
-	public void addIndex(int index, T item) {
-		// slide to the right
-		throw new TODOErr();
+	public void addIndex(int index, T value) {
+	checkNotEmpty();
+	for (int i = this.fill-1; i > index; i--) {
+		this.array.setIndex(1, array.getIndex(i-1));
+	}
 	}
 
 	@Override

@@ -69,8 +69,9 @@ public class FixedSizeList<T> extends ListADT<T> {
 	@Override
 	public void addIndex(int index, T value) {
 	checkNotEmpty();
-	this.array.setIndex(1, value);
-	for (in)
+	for (int i = this.fill-1; i > index; i--) {
+		this.array.setIndex(1, array.getIndex(i-1));
+	}
 	}
 
 	@Override
