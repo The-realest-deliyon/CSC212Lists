@@ -96,6 +96,7 @@ public class GrowableList<T> extends ListADT<T> {
 	@Override
 	public void addIndex(int index, T value) {
 	checkNotEmpty();
+	checkInclusiveIndex(index);
 	for (int i = this.fill-1; i > index; i--) {
 		this.array.setIndex(1, array.getIndex(i-1));
 	}
