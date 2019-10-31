@@ -31,15 +31,41 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 		//find a way to call ( 2 nodes ) before null
 		//create a for loop that removes an element 
 		checkNotEmpty();
-		for (i = this.start.value; i < this.end.value; i++) {
-			
+		if(size()==1) {
+			T value = this.start.value;
+			this.start = null;
+			return value;
 		}
-			
+		Node<T> secondLast = null; 
+		for (Node <T> n= this.start; n.next != null; n = n.next) {
+			secondLast = n;
+		}
+		T value = secondLast.next.value;
+		secondLast.next = null;
+		return value;
 	}
 
 	@Override
 	public T removeIndex(int index) {
-		throw new TODOErr();
+		checkNotEmpty();
+		if( index < 0 || index >= size()) {
+			throw new BadIndexError(index);
+		}
+		if( index ==0) {
+			T deleteThis = start.value;
+			start = start.next;
+			return deleteThis;
+		}else {
+			T deleteThis = null;
+			int at = 0;
+			for(Node<T> n= this.start; n != null; n = n.next) {
+				if(at == index-1) {
+					deleteThis = n.next.value;
+					n.next = n.next.next;
+					break;
+				}
+			}return deleteThis;
+		}
 	}
 
 	@Override
@@ -64,7 +90,15 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 
 	@Override
 	public void addIndex(int index, T item) {
-		throw new TODOErr();
+		if (index <0 || index >= size()){
+			throw new BadIndexError(index);
+		}
+		
+		//store all three values
+		//create a node that stores the value you want to add and the value after
+		//create a node.previous connecting to the new node you want to store in the list
+		//for (int i = this.fill-1; i > index; i--) {this.array.setIndex(1, array.getIndex(i-1));}
+		//^use this for loop, but redefine fill.
 	}
 
 	@Override
@@ -76,7 +110,11 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 	@Override
 	public T getBack() {
 		checkNotEmpty();
-		throw new TODOErr();
+		T t = start.value;
+		for(Node<T> n = this.start; n.next != null; n = n.next) {
+			t = n.next.value;
+		}
+		return t;
 	}
 
 	@Override
@@ -94,8 +132,14 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 	@Override
 	public void setIndex(int index, T value) {
 		checkNotEmpty();
-		throw new TODOErr();
-	}
+		int at = 0;
+		for (Node<T> n = this.start; n != null; n = n.next) {
+			if (at++ == index) {
+				n.value = value;
+			}
+		}
+		throw new BadIndexError(index);
+	}	
 
 	@Override
 	public int size() {

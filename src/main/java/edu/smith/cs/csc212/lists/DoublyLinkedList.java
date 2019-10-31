@@ -1,6 +1,6 @@
 package edu.smith.cs.csc212.lists;
-
 import me.jjfoley.adt.ListADT;
+import me.jjfoley.adt.errors.BadIndexError;
 import me.jjfoley.adt.errors.TODOErr;
 
 /**
@@ -80,11 +80,26 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 	
 	@Override
 	public T getIndex(int index) {
-		throw new TODOErr();
+		checkNotEmpty();
+		int at = 0;
+		for (Node<T> n = this.start; n != null; n = n.after) {
+			if (at++ == index) {
+				return n.value;
+			}
+		}
+		throw new BadIndexError(index);
 	}
 	
 	public void setIndex(int index, T value) {
-		throw new TODOErr();
+		checkNotEmpty();
+		int at = 0;
+		for (Node<T> n = this.start; n != null; n = n.after) {
+			if (at++ == index) {
+				n.value = value;
+				return;
+			}
+		}
+		throw new BadIndexError(index);
 	}
 
 	@Override
