@@ -93,13 +93,29 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 		if (index <0 || index >= size()){
 			throw new BadIndexError(index);
 		}
+		int at = 0;
+		Node<T> addIndex = null;
+		if(index == 0) {
+			addFront(item);
+		}
 		
+		else if (index == size()) {
+			addBack(item);
+				}else {
+					for(Node<T> n = this.start; n != null; n = n.next) {
+						if(at == index-1) {
+							addIndex = new Node <T>(item, n.next);
+							n.next = addIndex;
+						}
+					}
+				}
+				at++;
+			}
 		//store all three values
 		//create a node that stores the value you want to add and the value after
 		//create a node.previous connecting to the new node you want to store in the list
 		//for (int i = this.fill-1; i > index; i--) {this.array.setIndex(1, array.getIndex(i-1));}
 		//^use this for loop, but redefine fill.
-	}
 
 	@Override
 	public T getFront() {
@@ -136,6 +152,7 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 		for (Node<T> n = this.start; n != null; n = n.next) {
 			if (at++ == index) {
 				n.value = value;
+				return;
 			}
 		}
 		throw new BadIndexError(index);

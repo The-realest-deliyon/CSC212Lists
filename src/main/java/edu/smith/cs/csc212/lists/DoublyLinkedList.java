@@ -48,7 +48,14 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 
 	@Override
 	public void addFront(T item) {
-		throw new TODOErr();
+		if (start == null) {
+			start = end = new Node<T>(item);
+		}else {
+			Node<T> addSecond = start;
+			addSecond = new Node<T>(item);
+			start.after = addSecond;
+			addSecond.before = start;
+		}
 	}
 
 	@Override
@@ -104,7 +111,11 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 
 	@Override
 	public int size() {
-		throw new TODOErr();
+		int Count = 0;;
+		for(Node <T> n = this.start; n != null;n= n.after) {
+			Count++;
+		}
+		return Count;
 	}
 
 	@Override
