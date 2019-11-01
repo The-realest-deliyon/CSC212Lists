@@ -35,9 +35,12 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 		checkNotEmpty();
 		T firstValue = start.value;
 		this.start = start.after;
-		return firstValue;
 		if(start == null) {
+			end = null;
+	}else {
+		start.before = null;
 	}
+		return firstValue;
 	}
 
 	@Override
@@ -107,13 +110,13 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 			int at = 0;
 			for (Node<T> n = this.start; n != null; n = n.after) {
 				if (at++ == index) {
-					Node<T> first = n;
-					Node<T> second = n.before;
-					Node<T> third = new Node<T>(item);
-					n = third;
-					n.value = item;
-					n.before = second;
-					second.after = n;
+					Node<T> left = n.before;
+					Node<T>  add = new Node<T>(item);
+					left.after = add;
+					n.before = add;
+					add.before = left;
+					add.after = n;
+					return;
 				}
 				at++;
 			}
