@@ -51,9 +51,8 @@ public class GrowableList<T> extends ListADT<T> {
 	@Override
 	public T removeIndex(int index) {
 		// slide to the left
-	T takeOut = this.array.getIndex(index);
-	//take the index you want from the list and store it
-	this.array.setIndex(index, this.array.getIndex(index+1));
+	T takeOut = this.getIndex(index);
+	fill--;
 	//store the value you took out as the next value you want
 	for (int i = index; i < this.fill; i++) {
 		this.array.setIndex(i, array.getIndex(i+1));
@@ -95,12 +94,17 @@ public class GrowableList<T> extends ListADT<T> {
 
 	@Override
 	public void addIndex(int index, T value) {
-	checkNotEmpty();
 	checkInclusiveIndex(index);
-	for (int i = this.fill-1; i > index; i--) {
-		this.array.setIndex(1, array.getIndex(i-1));
+	if (fill >= array.size()) {
+		resizeArray();
 	}
+	for (int i = fill-1; i > index; i--) {
+		this.array.setIndex(i++, array.getIndex(i-1));
 	}
+	this.array.setIndex(index, value);
+	fill++;
+	}
+	
 
 	@Override
 	public T getFront() {
