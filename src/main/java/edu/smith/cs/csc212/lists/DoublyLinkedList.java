@@ -35,11 +35,11 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 		checkNotEmpty();
 		T firstValue = start.value;
 		this.start = start.after;
-		if(start == null) {
+		if (start == null) {
 			end = null;
-	}else {
-		start.before = null;
-	}
+		} else {
+			start.before = null;
+		}
 		return firstValue;
 	}
 
@@ -59,16 +59,24 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 	@Override
 	public T removeIndex(int index) {
 		checkNotEmpty();
-		int at = 0;
-		for (Node<T> n = this.start; n != null; n = n.after) {
-			if (at++ == index) {
-				n.after = n.after.after;
-				n.after.before = n;
-				return n.value;
-			}
-
+		if (index == 0) {
+			return removeFront();
 		}
-		throw new BadIndexError(index);
+		if (index == size() - 1) {
+			return removeBack();
+		} else {
+			int at = 0;
+			for (Node<T> n = this.start; n != null; n = n.after) {
+				if (at == index - 1) {
+					T value = n.after.value;
+					n.after = n.after.after;
+					n.after.before = n;
+					return value;
+				}
+				at++;
+			}
+			throw new BadIndexError(index);
+		}
 	}
 
 	@Override
@@ -77,7 +85,7 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 			start = end = new Node<T>(item);
 		} else {
 			Node<T> addSecond = start;
-			addSecond = new Node<T>(item);
+			start = new Node<T>(item);
 			start.after = addSecond;
 			addSecond.before = start;
 		}
@@ -103,9 +111,11 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 		}
 		if (index == 0) {
 			addFront(item);
+			return;
 		}
 		if (index == size()) {
 			addBack(item);
+			return;
 		} else {
 			int at = 0;
 			for (Node<T> n = this.start; n != null; n = n.after) {

@@ -106,7 +106,7 @@ public class FixedSizeList<T> extends ListADT<T> {
 
 	@Override
 	public T removeBack() {
-		throw new TODOErr();
+		return removeIndex(fill-1);
 	}
 
 	@Override
