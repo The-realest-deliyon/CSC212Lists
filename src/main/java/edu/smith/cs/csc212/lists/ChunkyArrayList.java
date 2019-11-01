@@ -59,7 +59,32 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 
 	@Override
 	public T removeIndex(int index) {
-		throw new TODOErr();
+		int chunkIndex = 0;
+		int start = 0;
+		for (FixedSizeList<T> chunk : this.chunks) {
+			// calculate bounds of this chunk.
+			int end = start + chunk.size();
+
+			// Check whether the index should be in this chunk:
+			if (start <= index && index <= end) {
+				if (chunk.isFull()) {
+					// check can roll to next
+					// or need a new chunk
+					throw new TODOErr();
+				} else {
+					// put right in this chunk, there's space.
+					throw new TODOErr();
+				}
+				// upon adding, return.
+				// return;
+			}
+
+			// update bounds of next chunk.
+			start = end;
+			chunkIndex++;
+		}
+		throw new BadIndexError(index);
+		;
 	}
 
 	@Override
@@ -85,9 +110,9 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 		FixedSizeList<T> back = chunks.getBack();
 		if (back.isFull()) {
 			back = makeChunk();
-			chunks.addFront(back);
+			chunks.addBack(back);
 		}
-		back.addFront(item);
+		back.addBack(item);
 	}
 
 	@Override
@@ -158,7 +183,11 @@ public class ChunkyArrayList<T> extends ListADT<T> {
 		if (this.isEmpty()) {
 			throw new EmptyListError();
 		}
-		start = 0;
+		int start = 0;
+		for (FixedSizeList<T> chunk : this.chunks) {
+			// calculate bounds of this chunk.
+			int end = start + chunk.size();
+		}
 	}
 
 	@Override
