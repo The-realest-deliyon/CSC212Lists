@@ -94,7 +94,7 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 	@Override
 	public void addBack(T item) {
 		if (end == null) {
-			start = end = new Node<T>(item);
+			end = start = new Node<T>(item);
 		} else {
 			Node<T> secondLast = end;
 			end = new Node<T>(item);

@@ -99,7 +99,7 @@ public class GrowableList<T> extends ListADT<T> {
 		resizeArray();
 	}
 	for (int i = fill-1; i > index; i--) {
-		this.array.setIndex(i++, array.getIndex(i-1));
+		this.array.setIndex(i+1, array.getIndex(i-1));
 	}
 	this.array.setIndex(index, value);
 	fill++;
