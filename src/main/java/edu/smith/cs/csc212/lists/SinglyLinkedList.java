@@ -28,17 +28,21 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 
 	@Override
 	public T removeBack() {
-		//find a way to call ( 2 nodes ) before null
-		//create a for loop that removes an element 
+		// find a way to call ( 2 nodes ) before null
+		// create a for loop that removes an element
 		checkNotEmpty();
-		if(size()==1) {
+		if (size() == 1) {
 			T value = this.start.value;
 			this.start = null;
 			return value;
 		}
-		Node<T> secondLast = null; 
-		for (Node <T> n= this.start; n.next != null; n = n.next) {
+		Node<T> secondLast = null;
+		int i = 0;
+		for (Node<T> n = this.start; n.next != null; n = n.next) {
 			secondLast = n;
+			if (i++ > 1000) {
+				throw new AssertionError("blash");
+			}
 		}
 		T value = secondLast.next.value;
 		secondLast.next = null;
@@ -48,23 +52,24 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 	@Override
 	public T removeIndex(int index) {
 		checkNotEmpty();
-		if( index < 0 || index >= size()) {
+		if (index < 0 || index >= size()) {
 			throw new BadIndexError(index);
 		}
-		if( index ==0) {
+		if (index == 0) {
 			T deleteThis = start.value;
 			start = start.next;
 			return deleteThis;
-		}else {
+		} else {
 			T deleteThis = null;
 			int at = 0;
-			for(Node<T> n= this.start; n != null; n = n.next) {
-				if(at == index-1) {
+			for (Node<T> n = this.start; n != null; n = n.next) {
+				if (at == index - 1) {
 					deleteThis = n.next.value;
 					n.next = n.next.next;
 					break;
 				}
-			}return deleteThis;
+			}
+			return deleteThis;
 		}
 	}
 
@@ -75,47 +80,51 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 
 	@Override
 	public void addBack(T item) {
-		if(this.start == null) {
+		if (this.start == null) {
 			addFront(item);
 			return;
 		}
-		
+
 		Node<T> last = null;
 		for (Node<T> current = this.start; current != null; current = current.next) {
 			last = current;
 		}
-		assert(last.next == null);
+		assert (last.next == null);
 		last.next = new Node<T>(item, null);
 	}
 
 	@Override
 	public void addIndex(int index, T item) {
-		if (index <0 || index >= size()){
+		if (index < 0 || index >= size()) {
 			throw new BadIndexError(index);
 		}
 		int at = 0;
 		Node<T> addIndex = null;
-		if(index == 0) {
+		if (index == 0) {
 			addFront(item);
 		}
-		
+
 		else if (index == size()) {
 			addBack(item);
-				}else {
-					for(Node<T> n = this.start; n != null; n = n.next) {
-						if(at == index-1) {
-							addIndex = new Node <T>(item, n.next);
-							n.next = addIndex;
-						}
-					}
+		} else {
+			for (Node<T> n = this.start; n != null; n = n.next) {
+				if (at == index - 1) {
+					addIndex = new Node<T>(item, n.next);
+					n.next = addIndex;
+					break;
 				}
 				at++;
 			}
-		//store all three values
-		//create a node that stores the value you want to add and the value after
-		//create a node.previous connecting to the new node you want to store in the list
-		//for (int i = this.fill-1; i > index; i--) {this.array.setIndex(1, array.getIndex(i-1));}
-		//^use this for loop, but redefine fill.
+		}
+		
+	}
+	// store all three values
+	// create a node that stores the value you want to add and the value after
+	// create a node.previous connecting to the new node you want to store in the
+	// list
+	// for (int i = this.fill-1; i > index; i--) {this.array.setIndex(1,
+	// array.getIndex(i-1));}
+	// ^use this for loop, but redefine fill.
 
 	@Override
 	public T getFront() {
@@ -127,7 +136,7 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 	public T getBack() {
 		checkNotEmpty();
 		T t = start.value;
-		for(Node<T> n = this.start; n.next != null; n = n.next) {
+		for (Node<T> n = this.start; n.next != null; n = n.next) {
 			t = n.next.value;
 		}
 		return t;
@@ -156,7 +165,7 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 			}
 		}
 		throw new BadIndexError(index);
-	}	
+	}
 
 	@Override
 	public int size() {
@@ -192,7 +201,7 @@ public class SinglyLinkedList<T> extends ListADT<T> {
 		 * Create a node with no friends.
 		 * 
 		 * @param value - the value to put in it.
-		 * @param next - the successor to this node.
+		 * @param next  - the successor to this node.
 		 */
 		public Node(T value, Node<T> next) {
 			this.value = value;

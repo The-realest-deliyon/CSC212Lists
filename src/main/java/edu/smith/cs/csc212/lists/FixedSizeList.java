@@ -2,11 +2,13 @@ package edu.smith.cs.csc212.lists;
 
 import me.jjfoley.adt.ArrayWrapper;
 import me.jjfoley.adt.ListADT;
+import me.jjfoley.adt.errors.EmptyListError;
 import me.jjfoley.adt.errors.RanOutOfSpaceError;
 import me.jjfoley.adt.errors.TODOErr;
 
 /**
  * FixedSizeList is a List with a maximum size.
+ * 
  * @author jfoley
  *
  * @param <T>
@@ -23,6 +25,7 @@ public class FixedSizeList<T> extends ListADT<T> {
 
 	/**
 	 * Construct a new FixedSizeList with a given maximum size.
+	 * 
 	 * @param maximumSize - the size of the array to use.
 	 */
 	public FixedSizeList(int maximumSize) {
@@ -56,22 +59,33 @@ public class FixedSizeList<T> extends ListADT<T> {
 
 	@Override
 	public T getFront() {
-		this.checkNotEmpty();
+		checkNotEmpty();
+		if (fill == 0) {
+			throw new EmptyListError();
+		}
 		return this.array.getIndex(0);
 	}
 
 	@Override
 	public T getBack() {
 		this.checkNotEmpty();
-		return this.array.getIndex(fill-1);
+		if (fill == 0) {
+			throw new EmptyListError();
+		}
+		return this.array.getIndex(fill - 1);
 	}
 
 	@Override
 	public void addIndex(int index, T value) {
-	checkNotEmpty();
-	for (int i = this.fill-1; i > index; i--) {
-		this.array.setIndex(1, array.getIndex(i-1));
-	}
+		checkNotEmpty();
+		if (fill >= array.size()) {
+			throw new RanOutOfSpaceError();
+		}
+		for (int i = fill - 1; i > index; i--) {
+			this.array.setIndex(1, array.getIndex(i - 1));
+		}
+		this.array.setIndex(index,value);
+		fill++;
 	}
 
 	@Override
@@ -90,23 +104,25 @@ public class FixedSizeList<T> extends ListADT<T> {
 
 	@Override
 	public T removeIndex(int index) {
+		checkNotEmpty();
 		// slide to the left
-	T takeOut = this.array.getIndex(index);
-	//take the index you want from the list and store it
-	this.array.setIndex(index, this.array.getIndex(index+1));
-	//store the value you took out as the next value you want
-	for (int i = index; i < this.fill; i++) {
-		this.array.setIndex(i, array.getIndex(i+1));
-	}
-	//create a for loop that slides down all the other values
-	this.array.setIndex(fill, null);
-	return takeOut;
-	//erase the duplicate and return the value you stored before.
+		T takeOut = this.array.getIndex(index);
+		fill--;
+		// take the index you want from the list and store it
+		this.array.setIndex(index, this.array.getIndex(index + 1));
+		// store the value you took out as the next value you want
+		for (int i = index; i < this.fill; i++) {
+			this.array.setIndex(i, array.getIndex(i + 1));
+		}
+		// create a for loop that slides down all the other values
+		this.array.setIndex(fill, null);
+		return takeOut;
+		// erase the duplicate and return the value you stored before.
 	}
 
 	@Override
 	public T removeBack() {
-		return removeIndex(fill-1);
+		return removeIndex(fill - 1);
 	}
 
 	@Override
