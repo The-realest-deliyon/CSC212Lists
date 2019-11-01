@@ -111,7 +111,7 @@ public class DoublyLinkedList<T> extends ListADT<T> {
 			for (Node<T> n = this.start; n != null; n = n.after) {
 				if (at++ == index) {
 					Node<T> left = n.before;
-					Node<T>  add = new Node<T>(item);
+					Node<T> add = new Node<T>(item);
 					left.after = add;
 					n.before = add;
 					add.before = left;
